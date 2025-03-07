@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Compression</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="preloader" style="display: none;">
+    <div><img src="./loader.gif" alt="Loading..." /></div>
+    <div id="progressText" class="mt-2"></div>
+  </div>
+  <header>
+    <div class="container-fluid p-0 m-0">
+      <div class="card p-2 text-center">
+        <h2>🎥 Video Compression Tester Tool</h2>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container-fluid p-2 m-0">
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card p-4">
+            <h3>Choose Filters</h3>
+            <hr />
+            <div class="form-group mb-3">
+              <label class="form-label">🎥 Video Codec (Compression Format)</label>
+              <select class="form-select" id="videoCodec">
+                <option value="libx264">H.264 (libx264) – Best for compatibility and streaming</option>
+                <option value="libx265">H.265 (libx265) – More efficient but requires newer devices</option>
+                <option value="libvpx">VP8 (libvpx) – Open-source, good for web</option>
+                <option value="libvpx-vp9">VP9 (libvpx-vp9) – High-quality, Google’s alternative to H.265</option>
+                <option value="libaom-av1">AV1 (libaom-av1) – Next-gen, better compression, slow encoding</option>
+                <option value="mpeg4">MPEG-4 (mpeg4) – Older, less efficient</option>
+                <option value="libxvid">Xvid (libxvid) – Good for AVI format</option>
+                <option value="copy">Copy (no encoding) – Fastest, keeps original format</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">📏 Resolution (Output Size)</label>
+              <select class="form-select" id="resolution">
+                <option value="1920x1080">1080p (1920x1080) – Full HD, standard</option>
+                <option value="1280x720">720p (1280x720) – HD, good for streaming</option>
+                <option value="854x480">480p (854x480) – Medium quality, smaller size</option>
+                <option value="640x360">360p (640x360) – Low quality, useful for mobile</option>
+                <option value="426x240">240p (426x240) – Smallest, useful for previews</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🎚️ Bitrate (Quality Control)</label>
+              <select class="form-select" id="bitrate">
+                <option value="500">500 kbps – Low quality</option>
+                <option value="1000">1000 kbps – Decent for web</option>
+                <option value="2500">2500 kbps – Good for HD</option>
+                <option value="5000">5000 kbps – High quality</option>
+                <option value="10000">10000 kbps – Very high quality</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🚀 Preset (Encoding Speed)</label>
+              <select class="form-select" id="preset">
+                <option value="ultrafast">Ultrafast – Lowest quality, fastest encoding</option>
+                <option value="superfast">Superfast – Faster, but slightly better</option>
+                <option value="veryfast">Veryfast – Good for live streaming</option>
+                <option value="faster">Faster – Moderate compression</option>
+                <option value="fast">Fast – Balanced</option>
+                <option value="medium">Medium – Best balance of speed & quality</option>
+                <option value="slow">Slow – High-quality encoding</option>
+                <option value="veryslow">Veryslow – Best quality, very slow</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🖥️ Threads (CPU Utilization)</label>
+              <select class="form-select" id="threads">
+                <option value="1">1 – Lowest CPU usage</option>
+                <option value="2">2 – Moderate performance</option>
+                <option value="4">4 – Best for most CPUs</option>
+                <option value="8">8 – High-performance machines</option>
+                <option value="16">16 – Workstation-level processing</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🎯 Mission (Encoding Goal)</label>
+              <select class="form-select" id="mission">
+                <option value="high_quality">High Quality – Best visual clarity</option>
+                <option value="balanced">Balanced – Mix of quality and speed</option>
+                <option value="fast_processing">Fast Processing – Quickest conversion</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🎞️ Frame Rate (FPS)</label>
+              <select class="form-select" id="fps">
+                <option value="24">24 FPS – Cinematic look</option>
+                <option value="30">30 FPS – Standard for most videos</option>
+                <option value="60">60 FPS – Smooth motion, gaming</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🎵 Audio Codec</label>
+              <select class="form-select" id="audioCodec">
+                <option value="aac">AAC – Best quality for MP4</option>
+                <option value="mp3">MP3 – Good for compatibility</option>
+                <option value="opus">Opus – High quality, low bitrate</option>
+                <option value="copy">Copy – Keep original audio</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🔊 Audio Bitrate</label>
+              <select class="form-select" id="audioBitrate">
+                <option value="96">96 kbps – Low quality</option>
+                <option value="128">128 kbps – Standard</option>
+                <option value="192">192 kbps – Good quality</option>
+                <option value="320">320 kbps – Best quality</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🎼 Audio Sample Rate</label>
+              <select class="form-select" id="audioSampleRate">
+                <option value="44100">44.1 kHz – Standard</option>
+                <option value="48000">48 kHz – Best for video</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">🔑 Keyframe Interval (GOP Size)</label>
+              <select class="form-select" id="gopSize">
+                <option value="30">30 – Standard for most videos</option>
+                <option value="60">60 – Longer GOP for better compression</option>
+                <option value="10">10 – Lower value for better seeking</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card p-4">
+            <div class="row">
+              <div class="col-12 col-md-10 mb-2">
+                <input type="file" id="videoInput" accept="video/*" class="form-control file-input">
+              </div>
+              <div class="col-12 col-md-2 text-center">
+                <button id="compressButton" class="btn btn-primary">Compress Video</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <a id="downloadLink" style="display: none;">Download Compressed Video</a>
+        </div>
+      </div>
+      <div class="row history-table">
+        <div class="col-md-12">
+          <div class="card p-4">
+            <h3>Test History</h3>
+            <hr />
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Input File</th>
+                  <th>Input Size</th>
+                  <th>Input Type</th>
+                  <th>Output Size</th>
+                  <th>Video Codec</th>
+                  <th>Resolution</th>
+                  <th>Bitrate</th>
+                  <th>Preset</th>
+                  <th>Threads</th>
+                  <th>FPS</th>
+                  <th>Audio Codec</th>
+                  <th>Audio Bitrate</th>
+                  <th>Audio Sample Rate</th>
+                  <th>GOP Size</th>
+                  <th>Time Taken</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <!-- Rows will be added dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="container-fluid p-0 f-0">
+      <div class="card p-2 text-center">
+        Design and Developed by Avnish Tomar
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/dropify.min.js"></script>
+  <script type="text/javascript" src="js/sweetalert2.min.js"></script>
+  <script type="text/javascript" src="js/ffmpeg.min.js"></script>
+  <script>
+    const {
+      createFFmpeg,
+      fetchFile
+    } = FFmpeg;
+    const ffmpeg = createFFmpeg({
+      log: true
+    });
+
+    $(document).ready(function () {
+      let isFFmpegLoaded = false;
+      let startTime;
+      const history = [];
+
+      async function loadFFmpeg() {
+        if (!isFFmpegLoaded) {
+          await ffmpeg.load();
+          isFFmpegLoaded = true;
+        }
+      }
+
+      function showPreloader() {
+        $('.preloader').css('display', 'flex');
+      }
+
+      function hidePreloader() {
+        $('.preloader').css('display', 'none');
+      }
+
+      function showError(message) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: message,
+        });
+      }
+
+      function showSuccess(message, downloadUrl) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: message,
+          showCancelButton: true,
+          confirmButtonText: 'Download',
+          cancelButtonText: 'Close',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = downloadUrl;
+          }
+        });
+      }
+
+      function updateProgressText(message) {
+        $('#progressText').text(message);
+      }
+
+      function updateProgressBar(percentage) {
+        $('#progressBarInner').css('width', `${percentage}%`);
+      }
+
+      function parseFFmpegProgress(log) {
+        const frameMatch = log.match(/frame=\s*(\d+)/);
+        const fpsMatch = log.match(/fps=\s*(\d+)/);
+        const timeMatch = log.match(/time=\s*(\d+:\d+:\d+\.\d+)/);
+        const bitrateMatch = log.match(/bitrate=\s*(\d+\.\d+kbps)/);
+        const speedMatch = log.match(/speed=\s*(\d+\.\d+x)/);
+
+        const frame = frameMatch ? frameMatch[1] : 'N/A';
+        const fps = fpsMatch ? fpsMatch[1] : 'N/A';
+        const time = timeMatch ? timeMatch[1] : 'N/A';
+        const bitrate = bitrateMatch ? bitrateMatch[1] : 'N/A';
+        const speed = speedMatch ? speedMatch[1] : 'N/A';
+
+        return `Frames: ${frame}, FPS: ${fps}, Time: ${time}, Bitrate: ${bitrate}, Speed: ${speed}`;
+      }
+
+      function addToHistory(inputFile, inputSize, inputType, outputSize, params, timeTaken) {
+        const row = `
+                    <tr>
+                        <td>${inputFile}</td>
+                        <td>${inputSize}</td>
+                        <td>${inputType}</td>
+                        <td>${outputSize}</td>
+                        <td>${params.videoCodec}</td>
+                        <td>${params.resolution}</td>
+                        <td>${params.bitrate}</td>
+                        <td>${params.preset}</td>
+                        <td>${params.threads}</td>
+                        <td>${params.fps}</td>
+                        <td>${params.audioCodec}</td>
+                        <td>${params.audioBitrate}</td>
+                        <td>${params.audioSampleRate}</td>
+                        <td>${params.gopSize}</td>
+                        <td>${timeTaken}</td>
+                    </tr>
+                `;
+        $('#historyTableBody').prepend(row);
+      }
+
+      async function compressVideo(file) {
+        try {
+          startTime = new Date();
+          await ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+
+          const videoCodec = $('#videoCodec').val();
+          const resolution = $('#resolution').val();
+          const bitrate = $('#bitrate').val();
+          const preset = $('#preset').val();
+          const threads = $('#threads').val();
+          const fps = $('#fps').val();
+          const audioCodec = $('#audioCodec').val();
+          const audioBitrate = $('#audioBitrate').val();
+          const audioSampleRate = $('#audioSampleRate').val();
+          const gopSize = $('#gopSize').val();
+
+          const outputFileName = `output.${videoCodec === 'libvpx-vp9' ? 'webm' : 'mp4'}`;
+
+          const command = ['-i', 'input.mp4'];
+
+          if (videoCodec && videoCodec !== 'copy') command.push('-c:v', videoCodec);
+          if (resolution) command.push('-vf', `scale=${resolution}`);
+          if (bitrate) command.push('-b:v', `${bitrate}k`);
+          if (preset) command.push('-preset', preset);
+          if (threads) command.push('-threads', threads);
+          if (fps) command.push('-r', fps);
+          if (audioCodec && audioCodec !== 'copy') command.push('-c:a', audioCodec);
+          if (audioBitrate) command.push('-b:a', `${audioBitrate}k`);
+          if (audioSampleRate) command.push('-ar', audioSampleRate);
+          if (gopSize) command.push('-g', gopSize);
+
+          command.push(outputFileName);
+
+          updateProgressText('Starting compression...');
+          updateProgressBar(0);
+
+          ffmpeg.setLogger(({
+            type,
+            message
+          }) => {
+            if (type === 'fferr' && message.includes('frame=')) {
+              const progressDetails = parseFFmpegProgress(message);
+              updateProgressText(`Compressing... ${progressDetails}`);
+              const frameMatch = message.match(/frame=\s*(\d+)/);
+              if (frameMatch) {
+                const frames = parseInt(frameMatch[1]);
+                updateProgressBar((frames / 1000) * 10); // Example progress calculation
+              }
+            }
+          });
+
+          await ffmpeg.run(...command);
+
+          const data = ffmpeg.FS('readFile', outputFileName);
+          const videoBlob = new Blob([data.buffer], {
+            type: `video/${outputFileName.split('.').pop()}`
+          });
+          const videoUrl = URL.createObjectURL(videoBlob);
+
+          const endTime = new Date();
+          const totalTime = ((endTime - startTime) / 1000).toFixed(2);
+
+          const inputSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+          const outputSize = (data.length / (1024 * 1024)).toFixed(2) + ' MB';
+
+          const params = {
+            videoCodec,
+            resolution,
+            bitrate,
+            preset,
+            threads,
+            fps,
+            audioCodec,
+            audioBitrate,
+            audioSampleRate,
+            gopSize,
+          };
+
+          addToHistory(file.name, inputSize, file.type, outputSize, params, `${totalTime} seconds`);
+
+          showSuccess(`Video compressed successfully! Total time: ${totalTime} seconds.`, videoUrl);
+        } catch (error) {
+          console.error('Error during compression:', error);
+          showError('An error occurred during compression. Please try again.');
+        } finally {
+          hidePreloader();
+        }
+      }
+
+      $('#compressButton').on('click', async function () {
+        const fileInput = $('#videoInput')[0];
+        if (fileInput.files.length === 0) {
+          showError('Please select a video file to compress.');
+          return;
+        }
+
+        showPreloader();
+        await loadFFmpeg();
+        await compressVideo(fileInput.files[0]);
+      });
+    });
+  </script>
+</body>
+
+</html>
